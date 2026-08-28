@@ -3,6 +3,7 @@ import { NavLink, Navigate, Route, Routes } from 'react-router-dom'
 import { ClickOutsidePage } from './pages/ClickOutsidePage'
 import { CounterPage } from './pages/CounterPage'
 import { RenderFlowPage } from './pages/RenderFlowPage'
+import { TypeScriptRunnerPage } from './pages/TypeScriptRunnerPage'
 
 type ExampleItem = { label: string; description: string; path?: string; badge?: string }
 type ExampleGroup = { id: string; label: string; icon: string; items: ExampleItem[] }
@@ -31,10 +32,14 @@ const exampleGroups: ExampleGroup[] = [
     id: 'performance', label: '性能优化', icon: 'P',
     items: [{ label: '渲染流程', description: 'State 到 DOM 的完整过程', path: '/examples/render-flow', badge: 'React' }],
   },
+  {
+    id: 'tools', label: '在线实验', icon: 'T',
+    items: [{ label: 'TypeScript 运行器', description: '编写并运行 TS 函数', path: '/examples/typescript-runner', badge: 'TS' }],
+  },
 ]
 
 function App() {
-  const [openGroups, setOpenGroups] = useState(() => new Set(['react', 'hooks']))
+  const [openGroups, setOpenGroups] = useState(() => new Set(['react', 'hooks', 'performance', 'tools']))
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const toggleGroup = (groupId: string) => {
@@ -101,6 +106,7 @@ function App() {
             <Route path="/examples/counter" element={<CounterPage />} />
             <Route path="/examples/click-outside" element={<ClickOutsidePage />} />
             <Route path="/examples/render-flow" element={<RenderFlowPage />} />
+            <Route path="/examples/typescript-runner" element={<TypeScriptRunnerPage />} />
             <Route path="/" element={<Navigate to="/examples/counter" replace />} />
             <Route path="*" element={<Navigate to="/examples/counter" replace />} />
           </Routes>
