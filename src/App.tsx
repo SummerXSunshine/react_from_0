@@ -1,5 +1,8 @@
 import { useState } from 'react'
-import { NavLink, Navigate, Route, Routes } from 'react-router-dom'
+import { ConfigProvider, Menu, type MenuProps } from 'antd'
+import zhCN from 'antd/locale/zh_CN'
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { AntDesignFormPage } from './pages/AntDesignFormPage'
 import { ClickOutsidePage } from './pages/ClickOutsidePage'
 import { CounterPage } from './pages/CounterPage'
 import { RenderFlowPage } from './pages/RenderFlowPage'
@@ -34,25 +37,34 @@ const exampleGroups: ExampleGroup[] = [
   },
   {
     id: 'tools', label: '在线实验', icon: 'T',
-    items: [{ label: 'TypeScript 运行器', description: '编写并运行 TS 函数', path: '/examples/typescript-runner', badge: 'TS' }],
+    items: [
+      { label: 'TypeScript 运行器', description: '编写并运行 TS 函数', path: '/examples/typescript-runner', badge: 'TS' },
+      { label: 'Ant Design 表单', description: '文本、日期与选择输入', path: '/examples/antd-form', badge: 'Form' },
+    ],
   },
 ]
 
 function App() {
-  const [openGroups, setOpenGroups] = useState(() => new Set(['react', 'hooks', 'performance', 'tools']))
+  const location = useLocation()
+  const navigate = useNavigate()
+  const [openGroups, setOpenGroups] = useState<string[]>(['react', 'hooks', 'performance', 'tools'])
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
-  const toggleGroup = (groupId: string) => {
-    setOpenGroups((current) => {
-      const next = new Set(current)
-      if (next.has(groupId)) {
-        next.delete(groupId)
-      } else {
-        next.add(groupId)
-      }
-      return next
-    })
-  }
+  const menuItems: MenuProps['items'] = exampleGroups.map((group) => ({
+    key: group.id,
+    icon: <span className="antd-group-icon">{group.icon}</span>,
+    label: group.label,
+    children: group.items.map((item) => ({
+      key: item.path ?? `${group.id}-${item.label}`,
+      disabled: !item.path,
+      label: (
+        <span className="antd-menu-label">
+          <span><strong>{item.label}</strong><small>{item.description}</small></span>
+          {item.badge && <em>{item.badge}</em>}
+        </span>
+      ),
+    })),
+  }))
 
   return (
     <div className="app-shell">
@@ -72,31 +84,17 @@ function App() {
         <aside className={`sidebar ${sidebarOpen ? 'sidebar-open' : ''}`}>
           <div className="sidebar-heading"><span>代码示例</span><span className="example-count">{exampleGroups.length} 组</span></div>
           <nav className="example-nav" aria-label="代码示例导航">
-            {exampleGroups.map((group) => {
-              const expanded = openGroups.has(group.id)
-              return (
-                <section className="nav-group" key={group.id}>
-                  <button className="nav-group-button" type="button" aria-expanded={expanded} onClick={() => toggleGroup(group.id)}>
-                    <span className="group-icon">{group.icon}</span><span>{group.label}</span><span className={`chevron ${expanded ? 'expanded' : ''}`}>›</span>
-                  </button>
-                  {expanded && (
-                    <div className="sub-tabs">
-                      {group.items.map((item) => item.path ? (
-                        <NavLink className={({ isActive }) => `sub-tab ${isActive ? 'active' : ''}`} key={item.label} to={item.path} onClick={() => setSidebarOpen(false)}>
-                          <span className="sub-tab-copy"><strong>{item.label}</strong><small>{item.description}</small></span>
-                          {item.badge && <span className="tab-badge">{item.badge}</span>}
-                        </NavLink>
-                      ) : (
-                        <div className="sub-tab disabled" key={item.label} aria-disabled="true">
-                          <span className="sub-tab-copy"><strong>{item.label}</strong><small>{item.description}</small></span>
-                          {item.badge && <span className="tab-badge muted">{item.badge}</span>}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </section>
-              )
-            })}
+            <Menu
+              mode="inline"
+              items={menuItems}
+              selectedKeys={[location.pathname]}
+              openKeys={openGroups}
+              onOpenChange={setOpenGroups}
+              onClick={({ key }) => {
+                navigate(key)
+                setSidebarOpen(false)
+              }}
+            />
           </nav>
           <div className="sidebar-footer"><span className="footer-icon">＋</span><span><strong>添加新示例</strong><small>在 exampleGroups 中配置</small></span></div>
         </aside>
@@ -107,6 +105,7 @@ function App() {
             <Route path="/examples/click-outside" element={<ClickOutsidePage />} />
             <Route path="/examples/render-flow" element={<RenderFlowPage />} />
             <Route path="/examples/typescript-runner" element={<TypeScriptRunnerPage />} />
+            <Route path="/examples/antd-form" element={<AntDesignFormPage />} />
             <Route path="/" element={<Navigate to="/examples/counter" replace />} />
             <Route path="*" element={<Navigate to="/examples/counter" replace />} />
           </Routes>
@@ -116,4 +115,15 @@ function App() {
   )
 }
 
-export default App
+function ThemedApp() {
+  return (
+    <ConfigProvider
+      locale={zhCN}
+      theme={{ token: { colorPrimary: '#4f46e5', borderRadius: 10, fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif' } }}
+    >
+      <App />
+    </ConfigProvider>
+  )
+}
+
+export default ThemedApp

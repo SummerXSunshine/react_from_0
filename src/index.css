@@ -19,6 +19,20 @@ button, input { font: inherit; }
 .sidebar-heading { display: flex; align-items: center; justify-content: space-between; padding: 0 10px 16px; color: #8a94a6; font-size: 11px; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
 .example-count { padding: 4px 7px; border-radius: 6px; color: #7a8496; background: #f1f3f7; font-size: 9px; letter-spacing: .04em; }
 .example-nav { display: grid; gap: 5px; }
+.example-nav .ant-menu { border-inline-end: 0 !important; background: transparent; color: #4a5568; font-size: 13px; }
+.example-nav .ant-menu-submenu-title { height: 46px; margin: 2px 0; padding-inline: 10px !important; border-radius: 10px; font-weight: 750; }
+.example-nav .ant-menu-submenu-title:hover { color: #4338ca !important; background: #f5f5ff !important; }
+.example-nav .ant-menu-sub { background: transparent !important; }
+.example-nav .ant-menu-item { height: 58px; margin: 2px 0; padding-inline: 18px 8px !important; border-radius: 9px; line-height: normal; }
+.example-nav .ant-menu-item-selected { color: #4338ca !important; background: #efefff !important; }
+.example-nav .ant-menu-item-disabled { opacity: .45; }
+.antd-group-icon { display: grid; width: 27px; height: 27px; place-items: center; border-radius: 8px; color: #655ce6; background: #efefff; font-size: 11px; font-weight: 900; }
+.antd-menu-label { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.antd-menu-label > span { min-width: 0; }
+.antd-menu-label strong, .antd-menu-label small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.antd-menu-label strong { font-size: 12px; }
+.antd-menu-label small { margin-top: 4px; color: #99a1af; font-size: 9px; }
+.antd-menu-label em { flex: none; padding: 3px 5px; border-radius: 5px; color: #5b52dc; background: rgba(255, 255, 255, .8); font-size: 8px; font-style: normal; font-weight: 800; text-transform: uppercase; }
 .nav-group { display: grid; gap: 4px; }
 .nav-group-button { width: 100%; display: grid; grid-template-columns: 28px 1fr 18px; align-items: center; gap: 9px; padding: 9px 10px; border-radius: 10px; color: #3c4658; background: transparent; text-align: left; font-size: 13px; font-weight: 750; }
 .nav-group-button:hover { color: #29236d; background: #f5f5ff; transform: none; }
@@ -145,6 +159,25 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
 .runner-note { max-width: 1180px; margin: 18px auto 0; color: #7b8495; font-size: 11px; line-height: 1.7; }
 .runner-note strong { color: #50596b; }
 
+/* Ant Design form example */
+.antd-form-page { min-height: calc(100vh - 68px); padding: 48px 24px 64px; background: radial-gradient(circle at 20% 10%, rgba(99, 102, 241, .12), transparent 30%), #f7f8fc; }
+.form-page-header { width: min(100%, 620px); margin: 0 auto 26px; text-align: center; }
+.form-page-header h1 { font-size: clamp(30px, 5vw, 44px); }
+.form-page-header > p:last-child { margin: 14px 0 0; color: #707a8c; line-height: 1.7; }
+.antd-form-card { width: min(100%, 560px); margin: 0 auto; box-shadow: 0 20px 60px rgba(49, 46, 129, .1); }
+.antd-form-card .ant-card-body { padding: 34px; }
+.antd-form-card .ant-form-item { margin-bottom: 24px; }
+.antd-form-card .ant-form-item-label > label { color: #3f4859; font-weight: 700; }
+.antd-form-card .ant-input, .antd-form-card .ant-picker, .antd-form-card .ant-select-selector { min-height: 44px; }
+.antd-form-card .ant-input { width: 100%; }
+.antd-form-card .form-submit-row { margin: 30px 0 0; }
+.form-result { margin-top: 28px; padding-top: 24px; border-top: 1px solid #eceef3; }
+.form-result > span { color: #8a94a6; font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.form-result dl { display: grid; gap: 10px; margin: 14px 0 0; }
+.form-result dl div { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 11px 14px; border-radius: 9px; background: #f7f8fb; }
+.form-result dt { color: #8a94a6; font-size: 11px; }
+.form-result dd { margin: 0; color: #3f4859; font-size: 12px; font-weight: 700; text-align: right; }
+
 @media (max-width: 760px) {
   .topbar { justify-content: flex-start; gap: 12px; padding: 0 16px; }
   .menu-button { display: block; }
@@ -165,6 +198,8 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
   .runner-grid { grid-template-columns: 1fr; }
   .code-editor-wrap, .code-editor { height: 460px; }
   .runner-side { grid-template-rows: 230px 300px; }
+  .antd-form-page { padding: 34px 18px 48px; }
+  .antd-form-card .ant-card-body { padding: 24px 20px; }
 }
 @media (max-width: 520px) {
   .brand-block small, .topbar-status { display: none; }
